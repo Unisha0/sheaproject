@@ -1,0 +1,27 @@
+{% extends 'hospital/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Manage Ambulances</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Ambulance Number</th>
+                <th>Driver Name</th>
+                <th>Contact Number</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ambulance in ambulances %}
+            <tr>
+                <td>{{ ambulance.ambulance_number }}</td>
+                <td>{{ ambulance.driver_name }}</td>
+                <td>{{ ambulance.contact_number }}</td>
+                <td>{{ ambulance.get_available_display }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

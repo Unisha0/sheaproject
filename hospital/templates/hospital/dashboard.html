@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .navbar { background-color: #007bff; }
+        .navbar-brand, .nav-link { color: white; }
+        .sidebar { width: 250px; height: 100vh; position: fixed; top: 0; left: 0; background-color: #f8f9fa; padding-top: 20px; }
+        .sidebar .nav-item { margin-bottom: 10px; }
+        .content { margin-left: 270px; padding: 20px; }
+        .emoji { font-size: 30px; }
+        .dashboard-info { display: flex; justify-content: space-between; flex-wrap: wrap; }
+        .dashboard-info div { background-color: #f8f9fa; padding: 20px; border-radius: 8px; width: 30%; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); margin-bottom: 20px; }
+        .dashboard-info h4 { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">SHEA Hospital Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+
+    <div class="d-flex">
+        <div class="sidebar">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hospital:dashboard' %}"><i class="emoji fas fa-home"></i> Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hospital:manage_hospital' %}"><i class="emoji fas fa-hospital"></i> Manage Hospitals</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hospital:manage_doctors' %}"><i class="emoji fas fa-user-md"></i> Manage Doctors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hospital:manage_ambulances' %}"><i class="emoji fas fa-ambulance"></i> Manage Ambulances</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <h1>Welcome to the Hospital Dashboard</h1>
+            <div class="dashboard-info">
+                <div>
+                    <h4>Hospital Information</h4>
+                    <p><strong>Name:</strong> {{ hospital.name }}</p>
+                    <p><strong>Address:</strong> {{ hospital.address }}</p>
+                    <p><strong>Email:</strong> {{ hospital.email }}</p>
+                    <p><strong>Phone:</strong> {{ hospital.phone_number }}</p>
+                    <a href="{% url 'hospital:manage_hospital' %}" class="btn btn-primary">Edit Information</a>
+                </div>
+                <div>
+                    <h4>Manage Doctors</h4>
+                    <p>View and manage doctors' details.</p>
+                    <a href="{% url 'hospital:manage_doctors' %}" class="btn btn-primary">Manage Doctors</a>
+                </div>
+                <div>
+                    <h4>Manage Ambulances</h4>
+                    <p>View and manage ambulance availability.</p>
+                    <a href="{% url 'hospital:manage_ambulances' %}" class="btn btn-primary">Manage Ambulances</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
