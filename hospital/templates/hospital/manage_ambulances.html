@@ -1,27 +1,40 @@
-{% extends 'hospital/base.html' %}
+<h1>Manage Ambulances</h1>
 
-{% block content %}
-<div class="container">
-    <h2 class="mt-4">Manage Ambulances</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Ambulance Number</th>
-                <th>Driver Name</th>
-                <th>Contact Number</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ambulance in ambulances %}
-            <tr>
-                <td>{{ ambulance.ambulance_number }}</td>
-                <td>{{ ambulance.driver_name }}</td>
-                <td>{{ ambulance.contact_number }}</td>
-                <td>{{ ambulance.get_available_display }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endblock %}
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Ambulance Number</th>
+            <th>Driver</th>
+            <th>Contact</th>
+            <th>Status</th>
+            <th>Available</th>
+            <th>Last Known Location</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ambulance in ambulances %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ ambulance.ambulance_number }}</td>
+            <td>{{ ambulance.driver_name }}</td>
+            <td>{{ ambulance.contact_number }}</td>
+            <td>{{ ambulance.get_status_display }}</td>
+            <td>{{ "Yes" if ambulance.available else "No" }}</td>
+            <td>
+                {% if ambulance.latitude and ambulance.longitude %}
+                {{ ambulance.latitude }}, {{ ambulance.longitude }}
+                {% else %}
+                Not Available
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'hospital:edit_ambulance' ambulance.id %}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'hospital:edit_ambulance' %}" class="btn btn-primary">Add New Ambulance</a>
