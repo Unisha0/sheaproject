@@ -1,13 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 
 class Hospital(models.Model):
     name = models.CharField(max_length=100)
     address = models.TextField()
     phone_number = models.CharField(max_length=15)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     website = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    pan_number = models.CharField(max_length=9, unique=True)  # 9-digit PAN number
+    password = models.CharField(max_length=128)  # Encrypted password
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

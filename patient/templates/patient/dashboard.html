@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, {{ patient.name }}</h1>
+
+    <div style="display: flex;">
+        <!-- Left Navigation Bar -->
+        <div style="width: 20%; border-right: 1px solid #ccc; padding: 10px;">
+            <h3>Navigation</h3>
+            <ul>
+                <li>User Information</li>
+                <li>Doctor Information</li>
+                <li>Ambulance Services</li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div style="width: 80%; padding: 10px;">
+            <h3>Advertisements</h3>
+            {% for ad in ads %}
+                <div>
+                    <a href="{{ ad.link }}">
+                        <img src="{{ ad.image.url }}" alt="{{ ad.title }}" style="width: 100px; height: 100px;">
+                        <p>{{ ad.title }}</p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
