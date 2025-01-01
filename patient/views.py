@@ -1,7 +1,8 @@
 # patient/views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
-from .models import Patient, Advertisement
+from hospital.models import Ambulance, Hospital
+from .models import Patient, Advertisement,PatientHistory
 from .forms import PatientSignupForm, PatientLoginForm
 
 def signup(request):
@@ -45,3 +46,39 @@ def dashboard(request):
     patient = Patient.objects.get(id=patient_id)
     ads = Advertisement.objects.all()
     return render(request, 'patient/dashboard.html', {'patient': patient, 'ads': ads})
+
+def hospital(request):
+    hospitals = Hospital.objects.all()
+    return render(request, 'patient/hospital.html', {'hospitals': hospitals})
+
+
+def user_account(request):
+    patient_id = request.session.get('patient_id')
+    if not patient_id:
+        return redirect('patient_login')
+
+    patient = Patient.objects.get(id=patient_id)
+    return render(request, 'patient/user_account.html', {'patient': patient})
+
+
+def ambulance(request):
+    ambulances = Ambulance.objects.filter(is_available=True)
+    return render(request, 'patient/ambulance.html', {'ambulances': ambulances})
+
+
+def help_page(request):
+    return render(request, 'patient/help_page.html')
+
+
+def patient_history(request):
+    patient_id = request.session.get('patient_id')
+    if not patient_id:
+        return redirect('patient_login')
+
+    history = patient_history.objects.filter(patient_id=patient_id)
+    return render(request, 'patient/patient_history.html', {'history': history})
+
+
+def logout(request):
+    request.session.flush()
+    return redirect('patient_login')

@@ -1,6 +1,6 @@
-# patient/models.py
 from django.db import models
 from django.core.validators import RegexValidator
+from hospital.models import Hospital, Ambulance  # Importing related models
 
 class Patient(models.Model):
     name = models.CharField(max_length=100)
@@ -30,3 +30,47 @@ class Advertisement(models.Model):
     def __str__(self):
         return self.title
 
+
+class PatientHistory(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='histories')
+    date = models.DateTimeField(auto_now_add=True)
+    hospital = models.ForeignKey(Hospital, on_delete=models.SET_NULL, null=True)
+    details = models.TextField()
+
+    def __str__(self):
+        return f"{self.patient.name} - {self.date.strftime('%Y-%m-%d')}"
+
+
+class HelpTopic(models.Model):
+    question = models.CharField(max_length=200)
+    answer = models.TextField()
+
+    def __str__(self):
+        return self.question
+
+
+class UserAccountSettings(models.Model):
+    patient = models.OneToOneField(Patient, on_delete=models.CASCADE, related_name='account_settings')
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
+    notifications_enabled = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"Settings for {self.patient.name}"
+
+
+class AmbulanceRequest(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='ambulance_requests')
+    ambulance = models.ForeignKey(Ambulance, on_delete=models.CASCADE)
+    requested_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ('Pending', 'Pending'),
+            ('Accepted', 'Accepted'),
+            ('Rejected', 'Rejected')
+        ],
+        default='Pending'
+    )
+
+    def __str__(self):
+        return f"{self.patient.name} - {self.ambulance.hospital.name} ({self.status})"
