@@ -74,3 +74,15 @@ class AmbulanceRequest(models.Model):
 
     def __str__(self):
         return f"{self.patient.name} - {self.ambulance.hospital.name} ({self.status})"
+
+from django.db import models
+
+class Ambulance(models.Model):
+    name = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    is_available = models.BooleanField(default=True)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6)  # Store latitude
+    longitude = models.DecimalField(max_digits=9, decimal_places=6)  # Store longitude
+
+    def __str__(self):
+        return self.name

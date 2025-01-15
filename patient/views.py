@@ -1,9 +1,9 @@
-# patient/views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
 from hospital.models import Ambulance, Hospital
-from .models import Patient, Advertisement,PatientHistory
+from .models import Patient, Advertisement, PatientHistory
 from .forms import PatientSignupForm, PatientLoginForm
+from .serializers import AmbulanceSerializer  # Import the serializer
 
 def signup(request):
     if request.method == 'POST':
@@ -16,7 +16,6 @@ def signup(request):
     else:
         form = PatientSignupForm()
     return render(request, 'patient/signup.html', {'form': form})
-
 
 def login(request):
     if request.method == 'POST':
@@ -37,7 +36,6 @@ def login(request):
         form = PatientLoginForm()
     return render(request, 'patient/login.html', {'form': form})
 
-
 def dashboard(request):
     patient_id = request.session.get('patient_id')
     if not patient_id:
@@ -51,7 +49,6 @@ def hospital(request):
     hospitals = Hospital.objects.all()
     return render(request, 'patient/hospital.html', {'hospitals': hospitals})
 
-
 def user_account(request):
     patient_id = request.session.get('patient_id')
     if not patient_id:
@@ -60,24 +57,26 @@ def user_account(request):
     patient = Patient.objects.get(id=patient_id)
     return render(request, 'patient/user_account.html', {'patient': patient})
 
-
 def ambulance(request):
-    ambulances = Ambulance.objects.filter(is_available=True)
-    return render(request, 'patient/ambulance.html', {'ambulances': ambulances})
+    # Correcting the filter field from 'is_available' to 'available'
+    ambulances = Ambulance.objects.filter(available=True)  # Change is_available to available
+    
+    # Serialize the Ambulance data
+    serializer = AmbulanceSerializer(ambulances, many=True)
 
+    # Pass the serialized data to the template
+    return render(request, 'patient/ambulance.html', {'ambulances': serializer.data})
 
 def help_page(request):
     return render(request, 'patient/help_page.html')
-
 
 def patient_history(request):
     patient_id = request.session.get('patient_id')
     if not patient_id:
         return redirect('patient_login')
 
-    history = patient_history.objects.filter(patient_id=patient_id)
+    history = PatientHistory.objects.filter(patient_id=patient_id)
     return render(request, 'patient/patient_history.html', {'history': history})
-
 
 def logout(request):
     request.session.flush()

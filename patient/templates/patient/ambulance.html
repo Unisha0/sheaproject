@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Ambulance</title>
+
+    <!-- Include Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <!-- Include your custom styles if needed -->
+    <style>
+        #map {
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Ambulance</h1>
+
+    <!-- Map Container -->
+    <div id="map"></div>
+
+    <!-- Include Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([27.7172, 85.3240], 13);  // Default to Kathmandu
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Example function to add ambulance markers (replace with actual data from your backend)
+        function addAmbulanceMarkers() {
+            // Sample data for ambulance locations (replace with your own data)
+            var ambulances = [
+                {lat: 27.7172, lon: 85.3240, name: "Ambulance 1"},
+                {lat: 27.7050, lon: 85.3200, name: "Ambulance 2"},
+            ];
+
+            // Loop through the data and add markers to the map
+            ambulances.forEach(function(ambulance) {
+                L.marker([ambulance.lat, ambulance.lon])
+                    .addTo(map)
+                    .bindPopup("<b>" + ambulance.name + "</b>")
+                    .openPopup();
+            });
+        }
+
+        // Call the function to add the markers to the map
+        addAmbulanceMarkers();
+    </script>
+</body>
+</html>

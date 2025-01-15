@@ -126,7 +126,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATIC_URL = '/myapp\myapp\static/'
+STATIC_URL = '/static/'
 
 # Add this if you want to serve additional static files
 STATICFILES_DIRS = [

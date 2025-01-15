@@ -7,9 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
 
-    <link rel="stylesheet" href="{% static 'patient_dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'patient/css/dashboard.css' %}">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
+    <title>Patient Dashboard | Smart Health Emergency Assistant</title>
 </head>
 
 <body>
@@ -17,12 +18,11 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <!--<img src="logo.png" alt="">-->
+                    <!--<img src="{% static 'logo.png' %}" alt="Logo">-->
                 </span>
 
                 <div class="text logo-text">
-                    <span class="name">SHEA</span>
-                    <span class="profession">User Dashboard</span>
+                    <span class="profession">Patient Dashboard</span>
                 </div>
             </div>
 
@@ -41,35 +41,36 @@
                     <li class="nav-link">
                         <a href="#">
                             <i class="bx bx-user-circle icon"></i>
-                            <span class="text nav-text">Welcome, {{ user.username }}</span>
+                            <span class="text nav-text">Welcome, {{ patient.name }}</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="{% url 'ambulance' %}">
-                            <i class="bx bx-ambulance icon"></i>
-                            <span class="text nav-text">Search Ambulance</span>
+                            <i class="bx bxs-ambulance icon"></i>
+                            <span class="text nav-text">Ambulance</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-link">
+                        <a href="{% url 'hospital' %}">
+                            <i class="bx bx-heart icon"></i>
+                            <span class="text nav-text">Hospital</span>
+                        </a>
+                    </li>
+                    
+
+                    <li class="nav-link">
+                        <a href="{% url 'patient_history' %}">
+                            <i class='bx bx-folder icon'></i>
+                            <span class="text nav-text">Medical History</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="{% url 'user_account' %}">
                             <i class='bx bx-cog icon'></i>
-                            <span class="text nav-text">User Account</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="{% url 'hospital' %}">
-                            <i class='bx bx-hospital icon'></i>
-                            <span class="text nav-text">Hospital Information</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="{% url 'patient_history' %}">
-                            <i class='bx bx-folder icon'></i>
-                            <span class="text nav-text">Medical History</span>
+                            <span class="text nav-text">Account Setting</span>
                         </a>
                     </li>
 
@@ -83,7 +84,7 @@
             </div>
 
             <div class="bottom-content">
-                <li class="">
+                <li>
                     <a href="{% url 'logout' %}">
                         <i class='bx bx-log-out icon'></i>
                         <span class="text nav-text">Logout</span>
@@ -101,14 +102,12 @@
                         <span class="switch"></span>
                     </div>
                 </li>
-
             </div>
         </div>
-
     </nav>
 
     <section class="home">
-        <div class="text">Welcome to SHEA, {{ user.username }}!</div>
+        <div class="text">Welcome <strong>{{ patient.name }}! </strong>!</div>
     </section>
 
     <script>
@@ -134,11 +133,9 @@
                 modeText.innerText = "Light mode";
             } else {
                 modeText.innerText = "Dark mode";
-
             }
         });
     </script>
-
 </body>
 
 </html>
